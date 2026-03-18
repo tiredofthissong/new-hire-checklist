@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sandler New Hire Checklist</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-WLZPY798YF"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-WLZPY798YF');
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<style>
+  :root {
+    --navy: #002D62;
+    --navy-hover: #003b7a;
+    --gold: #C89B2A;
+    --gold-light: #f0d080;
+    --cream: #FAFAF7;
+    --mid: #e8e4dc;
+    --text: #1a1a2e;
+    --muted: #6b7280;
+    --done-bg: #f0f7f0;
+    --done-text: #4a7c59;
+    --warn: #b45309;
+    --warn-bg: #fffbeb;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'IBM Plex Sans', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    min-height: 100vh;
+    padding-bottom: 80px;
+  }
+
+  /* ── Gate ── */
+  .gate {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    background: rgba(0, 20, 50, 0.72);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+  }
+  .gate-card {
+    background: white;
+    border-radius: 12px;
+    padding: 48px 40px 40px;
+    width: 100%;
+    max-width: 400px;
+    margin: 20px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 24px 80px rgba(0,0,0,0.35);
+  }
+  .gate-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--gold), var(--gold-light), var(--gold));
+  }
+  .gate-eyebrow {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--gold);
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    margin-bottom: 10px;
+  }
+  .gate-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    color: var(--navy);
+    margin-bottom: 8px;
+    line-height: 1.2;
+  }
+  .gate-sub {
+    font-size: 13px;
+    color: var(--muted);
+    font-weight: 300;
+    margin-bottom: 28px;
+    line-height: 1.6;
+  }
+  .gate-input {
+    width: 100%;
+    border: 1.5px solid var(--mid);
+    border-radius: 6px;
+    padding: 12px 14px;
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 15px;
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.2s;
+    margin-bottom: 12px;
+    background: var(--cream);
+  }
+  .gate-input:focus { border-color: var(--navy); background: white; }
+  .gate-btn {
+    width: 100%;
+    background: var(--navy);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 13px;
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.15s;
+    margin-bottom: 10px;
+  }
+  .gate-btn:hover { background: var(--navy-hover); }
+  .gate-btn:disabled { background: #9ca3af; cursor: default; }
+  .gate-link {
+    background: none;
+    border: none;
+    color: var(--muted);
+    font-size: 12px;
+    font-family: 'IBM Plex Sans', sans-serif;
+    cursor: pointer;
+    padding: 4px 0;
+    display: block;
+    text-align: center;
+    width: 100%;
+    transition: color 0.15s;
+  }
+  .gate-link:hover { color: var(--navy); }
+  .gate-error {
+    font-size: 12px;
+    color: #ef4444;
+    margin-top: 4px;
+    text-align: center;
+    min-height: 18px;
+  }
+  .gate-step { display: none; }
+  .gate-step.active { display: block; }
+
+  /* ── Header ── */
+  header {
+    background: var(--navy);
+    color: white;
+    padding: 40px 48px 32px;
+    position: relative;
+    overflow: hidden;
+  }
+  header::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--gold), var(--gold-light), var(--gold));
+  }
+  .header-eyebrow {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--gold-light);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .header-meta {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 4vw, 42px);
+    line-height: 1.1;
+    margin-bottom: 6px;
+  }
+  header p { font-size: 14px; color: rgba(255,255,255,0.6); font-weight: 300; }
+  .signout-btn {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: rgba(255,255,255,0.4);
+    background: none;
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 4px;
+    padding: 6px 12px;
+    cursor: pointer;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: all 0.15s;
+    flex-shrink: 0;
+    margin-top: 6px;
+  }
+  .signout-btn:hover { color: white; border-color: rgba(255,255,255,0.4); }
+
+  /* ── Progress bar ── */
+  .progress-bar {
+    background: var(--navy);
+    padding: 16px 48px 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .progress-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+  }
+  .progress-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: rgba(255,255,255,0.5);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .progress-count {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--gold-light);
+  }
+  .progress-track {
+    height: 4px;
+    background: rgba(255,255,255,0.12);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--gold), var(--gold-light));
+    border-radius: 2px;
+    transition: width 0.4s ease;
+    width: 0%;
+  }
+  .save-status {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: rgba(255,255,255,0.35);
+    text-align: right;
+    margin-top: 6px;
+    min-height: 16px;
+    transition: color 0.3s;
+  }
+
+  /* ── Main ── */
+  main { max-width: 860px; margin: 0 auto; padding: 40px 24px; }
+
+  /* ── Sections ── */
+  .section { margin-bottom: 36px; }
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 4px;
+    padding-bottom: 10px;
+    border-bottom: 1.5px solid var(--mid);
+  }
+  .section-number {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--gold);
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    min-width: 28px;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px;
+    color: var(--navy);
+    flex: 1;
+  }
+  .section-progress { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--muted); }
+  .section-progress.done { color: var(--done-text); font-weight: 500; }
+
+  /* ── Items ── */
+  .items { display: flex; flex-direction: column; gap: 2px; padding-top: 4px; }
+  .item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 10px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.15s;
+    position: relative;
+  }
+  .item:hover { background: rgba(0,45,98,0.04); }
+  .item.checked { background: var(--done-bg); }
+  .item.warn { background: var(--warn-bg); }
+  .item.warn.checked { background: var(--done-bg); }
+  .checkbox {
+    width: 18px; height: 18px;
+    border: 2px solid #c8cdd6;
+    border-radius: 4px;
+    flex-shrink: 0;
+    margin-top: 1px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s;
+  }
+  .item.checked .checkbox { border-color: var(--done-text); background: var(--done-text); }
+  .item.checked .checkbox::after {
+    content: '';
+    width: 10px; height: 6px;
+    border-left: 2px solid white;
+    border-bottom: 2px solid white;
+    transform: rotate(-45deg) translate(1px, -1px);
+    display: block;
+  }
+  .item-body { flex: 1; }
+  .item-label { font-size: 14px; font-weight: 500; color: var(--text); line-height: 1.4; transition: color 0.15s; }
+  .item.checked .item-label { color: var(--muted); text-decoration: line-through; text-decoration-color: #9ca3af; }
+  .item-note { font-size: 12px; color: var(--muted); margin-top: 2px; font-weight: 300; line-height: 1.4; }
+  .item.checked .item-note { color: #b0b8c4; }
+  .badge {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    padding: 2px 7px;
+    border-radius: 20px;
+    letter-spacing: 0.04em;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .badge-warn { background: #fde68a; color: var(--warn); border: 1px solid #f59e0b; }
+  .badge-day1 { background: #dbeafe; color: #1d4ed8; border: 1px solid #93c5fd; }
+  .badge-future { background: #ede9fe; color: #6d28d9; border: 1px solid #c4b5fd; }
+
+  /* ── Sub-items ── */
+  .sub-items { margin-top: 6px; padding-left: 4px; display: flex; flex-direction: column; gap: 1px; }
+  .sub-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 6px 8px; border-radius: 4px; cursor: pointer; transition: background 0.15s;
+  }
+  .sub-item:hover { background: rgba(0,45,98,0.04); }
+  .sub-checkbox {
+    width: 15px; height: 15px;
+    border: 1.5px solid #c8cdd6;
+    border-radius: 3px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.15s;
+  }
+  .sub-item.checked .sub-checkbox { border-color: var(--done-text); background: var(--done-text); }
+  .sub-item.checked .sub-checkbox::after {
+    content: '';
+    width: 8px; height: 5px;
+    border-left: 1.5px solid white;
+    border-bottom: 1.5px solid white;
+    transform: rotate(-45deg) translate(1px, -1px);
+    display: block;
+  }
+  .sub-label { font-size: 13px; color: var(--text); font-weight: 400; }
+  .sub-item.checked .sub-label { color: var(--muted); text-decoration: line-through; text-decoration-color: #9ca3af; }
+
+  /* ── Dept tools grid ── */
+  .tools-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 2px; padding-top: 4px; }
+
+  /* ── Reset button ── */
+  .reset-btn {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    background: none;
+    border: 1px solid var(--mid);
+    border-radius: 4px;
+    padding: 6px 14px;
+    cursor: pointer;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: all 0.15s;
+  }
+  .reset-btn:hover { border-color: var(--navy); color: var(--navy); }
+
+  /* ── Completion Banner ── */
+  .completion-banner {
+    display: none;
+    background: var(--navy);
+    color: white;
+    text-align: center;
+    padding: 28px 24px;
+    border-radius: 10px;
+    margin-top: 32px;
+    position: relative;
+    overflow: hidden;
+  }
+  .completion-banner::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--gold), var(--gold-light), var(--gold));
+  }
+  .completion-banner h2 { font-family: 'Playfair Display', serif; font-size: 24px; margin-bottom: 8px; }
+  .completion-banner p { font-size: 14px; color: rgba(255,255,255,0.65); font-weight: 300; }
+  .completion-banner.visible { display: block; }
+
+  /* ── Admin Dashboard ── */
+  #adminView { display: none; }
+  .admin-main { max-width: 860px; margin: 0 auto; padding: 40px 24px; }
+  .admin-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+  }
+  .admin-heading { font-family: 'Playfair Display', serif; font-size: 20px; color: var(--navy); }
+  .admin-sub { font-size: 13px; color: var(--muted); font-weight: 300; margin-top: 2px; }
+  .refresh-btn {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    background: none;
+    border: 1px solid var(--mid);
+    border-radius: 4px;
+    padding: 7px 16px;
+    cursor: pointer;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: all 0.15s;
+  }
+  .refresh-btn:hover { border-color: var(--navy); color: var(--navy); }
+  .user-table { width: 100%; border-collapse: collapse; }
+  .user-table th {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    text-align: left;
+    padding: 8px 12px;
+    border-bottom: 1.5px solid var(--mid);
+  }
+  .user-table td { padding: 14px 12px; border-bottom: 1px solid var(--mid); font-size: 14px; vertical-align: middle; }
+  .user-row:hover { background: rgba(0,45,98,0.03); }
+  .user-name { font-weight: 500; color: var(--text); }
+  .mini-bar-wrap { display: flex; align-items: center; gap: 10px; }
+  .mini-bar { height: 5px; background: var(--mid); border-radius: 3px; width: 100px; overflow: hidden; flex-shrink: 0; }
+  .mini-bar-fill { height: 100%; background: linear-gradient(90deg, var(--navy), #1d5fa8); border-radius: 3px; }
+  .pct-label { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--navy); font-weight: 500; min-width: 32px; }
+  .last-active { font-size: 12px; color: var(--muted); font-weight: 300; }
+  .empty-state { text-align: center; padding: 48px 24px; color: var(--muted); font-size: 14px; font-weight: 300; }
+
+  @media (max-width: 600px) {
+    header, .progress-bar { padding-left: 20px; padding-right: 20px; }
+    main, .admin-main { padding: 24px 16px; }
+    .tools-grid { grid-template-columns: 1fr; }
+    .gate-card { padding: 36px 24px 28px; }
+    .mini-bar { width: 60px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── Gate ── -->
+<div class="gate" id="gate">
+  <div class="gate-card">
+    <div class="gate-step active" id="step1">
+      <div class="gate-eyebrow">Sandler Training</div>
+      <h2 class="gate-title">New Hire Checklist</h2>
+      <p class="gate-sub">Enter your name to access your checklist and save your progress.</p>
+      <input type="text" id="nameInput" class="gate-input" placeholder="Your name"
+        autocomplete="off" onkeydown="if(event.key==='Enter') handleNameSubmit()">
+      <button class="gate-btn" id="nameBtn" onclick="handleNameSubmit()">Continue</button>
+      <div class="gate-error" id="nameError"></div>
+    </div>
+
+    <div class="gate-step" id="step2welcome">
+      <div class="gate-eyebrow">Welcome</div>
+      <h2 class="gate-title" id="welcomeTitle">Hello!</h2>
+      <p class="gate-sub">We'll save your progress automatically as you go. Ready to get started?</p>
+      <button class="gate-btn" onclick="confirmNewUser()">Let's go</button>
+      <button class="gate-link" onclick="showStep('1')">← Not you?</button>
+    </div>
+
+    <div class="gate-step" id="step2admin">
+      <div class="gate-eyebrow">Admin Access</div>
+      <h2 class="gate-title">Enter Password</h2>
+      <p class="gate-sub">Admin credentials required.</p>
+      <input type="password" id="adminPw" class="gate-input" placeholder="Password"
+        onkeydown="if(event.key==='Enter') handleAdminLogin()">
+      <button class="gate-btn" onclick="handleAdminLogin()">Sign In</button>
+      <div class="gate-error" id="adminError"></div>
+      <button class="gate-link" onclick="showStep('1')">← Back</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── Checklist view ── -->
+<div id="checklistView" style="display:none">
+  <header>
+    <div class="header-eyebrow">Sandler Training · Internal</div>
+    <div class="header-meta">
+      <div>
+        <h1>New Hire Checklist</h1>
+        <p id="userGreeting">Complete all items before the end of your first week.</p>
+      </div>
+      <button class="signout-btn" onclick="signOut()">Sign out</button>
+    </div>
+  </header>
+  <div class="progress-bar">
+    <div class="progress-meta">
+      <span class="progress-label">Overall Progress</span>
+      <span class="progress-count" id="progressCount">0 / 0 complete</span>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="save-status" id="saveStatus"></div>
+  </div>
+  <main>
+
+    <!-- SECTION 1 -->
+    <div class="section">
+      <div class="section-header">
+        <span class="section-number">01</span>
+        <span class="section-title">New Hire Paperwork</span>
+        <span class="section-progress" id="sp-1">0/6</span>
+        <button class="reset-btn" onclick="resetSection('s1')">Reset</button>
+      </div>
+      <div class="items" id="s1">
+        <div class="item" onclick="toggle(this)"><div class="checkbox"></div><div class="item-body"><div class="item-label">Employee NDA</div><div class="item-note">Completed via BambooHR</div></div></div>
+        <div class="item" onclick="toggle(this)"><div class="checkbox"></div><div class="item-body"><div class="item-label">I-9 (Employment Eligibility)</div><div class="item-note">Completed via BambooHR</div></div></div>
+        <div class="item" onclick="toggle(this)"><div class="checkbox"></div><div class="item-body"><div class="item-label">Federal Tax Form (W-4)</div><div class="item-note">Completed via BambooHR</div></div></div>
+        <div class="item" onclick="toggle(this)"><div class="checkbox"></div><div class="item-body"><div class="item-label">State Tax Form</div><div class="item-note">If applicable — completed via BambooHR</div></div></div>
+        <div class="item" onclick="toggle(this)"><div class="checkbox"></div><div class="item-body"><div class="item-label">Handbook Acknowledgement</div><div class="item-note">Completed via BambooHR</div></div></div>
+        <div class="item" onclick="toggle(this)"><div class="checkbox"></div><div class="item-body"><div class="item-label">Telecommuting Policy &amp; Guidelines</div><div class="item-note">Completed via BambooHR</div></div></div>
+      </div>
+    </div>
+
+    <!-- SECTION 2 -->
+    <div class="section">
+      <div class="section-header">
+        <span class="section-number">02</span>
+        <span class="section-title">Technology &amp; Equipment</span>
+        <span class="section-progress" id="sp-2">0/9</span>
+        <button class="reset-btn" onclick="resetSection('s2')">Reset</button>
+      </div>
+      <div class="items" id="s2">
+        <div class="item" onclick="toggle(this)"><div class="checkbox"></div><div class="item-body"><div class="item-label">Laptop</div></div></div>
+        <div class="item" onclick="toggle(this)"><div class="checkbox"></div><div class="item-body"><div class="item-label">Monitor × 2</div></div></div>
+        <div class="item" onclick="toggle(this)"><div class="checkbox"></div><div class="item-body"><div class="item-label">Keyboard</div></div></div>
+        <div class="item" onclick="toggle(this)"><div class="checkbox"></div><div class="item-body"><div class="item-label">Mouse</div></div></div>
+        <div class="item" onclick="toggle(this)"><div class="checkbox"></div><div class="item-body"><div class="item-label">Docking Station</div></div></div>
+        <div class="item" onclick="toggle(this)"><div class="checkbox"></div><div class="item-body"><div class="item-label">Login Credentials</div></div></div>
+        <div class="item" onclick="toggle(this)"><div class="checkbox"></div><div class="item-body"><div class="item-label">Email Signature Created</div><div class="item-note">Follow company guidelines — link in your welcome email</div></div></div>
+        <div class="item" onclick="toggle(this)"><div class="checkbox"></div><div class="item-body"><div class="item-label">All Company MS Teams Access</div></div></div>
+        <div class="item" onclick="toggle(this)"><div class="checkbox"></div><div class="item-body"><div class="item-label">MS Teams Phone Active</div><div class="item-note">Click "Calls" tab — if you see a dial pad and work number, you're set</div></div></div>
+      </div>
+    </div>
+
+    <!-- SECTION 3 -->
+    <div class="section">
+      <div class="section-header">
+        <span class="section-number">03</span>
+        <span class="section-title">System Access</span>
+        <span class="section-progress" id="sp-3">0/8</span>
+        <button class="reset-btn" onclick="resetSection('s3')">Reset</button>
+      </div>
+      <div class="items" id="s3">
+        <div class="item" onclick="toggle(this)">
+          <div class="checkbox"></div>
+          <div class="item-body">
+            <div class="item-label">BambooHR</div>
+            <div class="item-note">HRIS — PTO, timesheets, org chart, benefits. Log in with your Sandler email.</div>
+            <div class="sub-items">
+              <div class="sub-item" onclick="event.stopPropagation();toggleSub(this)"><div class="sub-checkbox"></div><span class="sub-label">All new hire paperwork signed</span></div>
+              <div class="sub-item" onclick="event.stopPropagation();toggleSub(this)"><div class="sub-checkbox"></div><span class="sub-label">Mobile app downloaded</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="item" onclick="toggle(this)">
+          <div class="checkbox"></div>
+          <div class="item-body">
+            <div class="item-label">Paychex Flex</div>
+            <div class="item-note">Payroll — pay stubs and tax forms. Check personal email for setup link.</div>
+            <div class="sub-items">
+              <div class="sub-item" onclick="event.stopPropagation();toggleSub(this)"><div class="sub-checkbox"></div><span class="sub-label">Personal information verified</span></div>
+              <div class="sub-item" onclick="event.stopPropagation();toggleSub(this)"><div class="sub-checkbox"></div><span class="sub-label">Direct deposit set up</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="item" onclick="toggle(this)">
+          <div class="checkbox"></div>
+          <div class="item-body">
+            <div class="item-label">Employee Navigator</div>
+            <div class="item-note">Benefits enrollment. Eligible on the 1st of the month after hire. Check personal email for setup link.</div>
+            <div class="sub-items">
+              <div class="sub-item" onclick="event.stopPropagation();toggleSub(this)"><div class="sub-checkbox"></div><span class="sub-label">Benefits selections made</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="item warn" onclick="toggle(this)">
+          <div class="checkbox"></div>
+          <div class="item-body">
+            <div class="item-label">SAP Concur</div>
+            <div class="item-note">Expense, travel &amp; invoice management. Setup email sent to Sandler address.</div>
+          </div>
+          <span class="badge badge-warn">⚠ 48hr deadline</span>
+        </div>
+        <div class="item" onclick="toggle(this)"><div class="checkbox"></div><div class="item-body"><div class="item-label">Compass</div><div class="item-note">Internal communication &amp; collaboration platform for all Sandler employees and franchisees.</div></div></div>
+        <div class="item" onclick="toggle(this)"><div class="checkbox"></div><div class="item-body"><div class="item-label">Sandler LMS</div><div class="item-note">Learning Management System — Sandler fundamentals training. Login instructions sent to Sandler email.</div></div></div>
+        <div class="item" onclick="toggle(this)"><div class="checkbox"></div><div class="item-body"><div class="item-label">Dark Trace</div><div class="item-note">Email security — monitors for phishing. You'll receive digest emails of blocked messages. Check here if expected mail hasn't arrived.</div></div></div>
+        <div class="item" onclick="toggle(this)">
+          <div class="checkbox"></div>
+          <div class="item-body">
+            <div class="item-label">HubSpot (CRM)</div>
+            <div class="item-note">Used by all departments. Contact helpdesk if access issues arise.</div>
+            <div class="sub-items">
+              <div class="sub-item" onclick="event.stopPropagation();toggleSub(this)"><div class="sub-checkbox"></div><span class="sub-label">Logged in and verified access</span></div>
+              <div class="sub-item" onclick="event.stopPropagation();toggleSub(this)"><div class="sub-checkbox"></div><span class="sub-label">Profile photo added</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 4 -->
+    <div class="section">
+      <div class="section-header">
+        <span class="section-number">04</span>
+        <span class="section-title">Required Training</span>
+        <span class="section-progress" id="sp-4">0/3</span>
+        <button class="reset-btn" onclick="resetSection('s4')">Reset</button>
+      </div>
+      <div class="items" id="s4">
+        <div class="item" onclick="toggle(this)">
+          <div class="checkbox"></div>
+          <div class="item-body">
+            <div class="item-label">Sandler Essentials Certification</div>
+            <div class="item-note">11 modules, self-paced, ~4.5 hours. Located in Sandler LMS. Must complete within 30 calendar days of hire.</div>
+            <div class="sub-items">
+              <div class="sub-item" onclick="event.stopPropagation();toggleSub(this)"><div class="sub-checkbox"></div><span class="sub-label">All 11 modules completed</span></div>
+              <div class="sub-item" onclick="event.stopPropagation();toggleSub(this)"><div class="sub-checkbox"></div><span class="sub-label">Certificate downloaded and emailed to HR</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="item" onclick="toggle(this)">
+          <div class="checkbox"></div>
+          <div class="item-body">
+            <div class="item-label">HR Training — Inspired eLearning</div>
+            <div class="item-note">Diversity, Privacy &amp; Data Protection, Workplace Essentials. ~1 hour. Login sent to Sandler email. Must complete within 5 working days of hire.</div>
+            <div class="sub-items">
+              <div class="sub-item" onclick="event.stopPropagation();toggleSub(this)"><div class="sub-checkbox"></div><span class="sub-label">All modules completed</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="item" onclick="toggle(this)">
+          <div class="checkbox"></div>
+          <div class="item-body">
+            <div class="item-label">ZoomInfo Certification</div>
+            <div class="item-note">Required for roles using ZoomInfo. Complete in Sandler LMS.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 5 -->
+    <div class="section">
+      <div class="section-header">
+        <span class="section-number">05</span>
+        <span class="section-title">Day 1 Meetings</span>
+        <span class="section-progress" id="sp-5">0/4</span>
+        <button class="reset-btn" onclick="resetSection('s5')">Reset</button>
+      </div>
+      <div class="items" id="s5">
+        <div class="item" onclick="toggle(this)">
+          <div class="checkbox"></div>
+          <div class="item-body"><div class="item-label">MNS Group (IT)</div><div class="item-note">Early AM — equipment check and account login verification. If not on your calendar, contact Jennifer D'Albini.</div></div>
+          <span class="badge badge-day1">Day 1 · AM</span>
+        </div>
+        <div class="item" onclick="toggle(this)">
+          <div class="checkbox"></div>
+          <div class="item-body"><div class="item-label">Paula Driesell (HR)</div><div class="item-note">After MNS — paperwork confirmation, Handbook, Org Chart, Expense/Travel Policy, Benefits overview.</div></div>
+          <span class="badge badge-day1">Day 1 · After IT</span>
+        </div>
+        <div class="item" onclick="toggle(this)">
+          <div class="checkbox"></div>
+          <div class="item-body"><div class="item-label">Bob Speich (IT Tools)</div><div class="item-note">After Paula — assigned tools, Microsoft Office setup, security policies, file management.</div></div>
+          <span class="badge badge-day1">Day 1 · After HR</span>
+        </div>
+        <div class="item" onclick="toggle(this)">
+          <div class="checkbox"></div>
+          <div class="item-body"><div class="item-label">Your Manager</div><div class="item-note">After Bob — department and role-specific onboarding begins.</div></div>
+          <span class="badge badge-day1">Day 1 · Last</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 6 -->
+    <div class="section">
+      <div class="section-header">
+        <span class="section-number">06</span>
+        <span class="section-title">Department Tools <span style="font-size:13px;font-family:'IBM Plex Sans';font-weight:300;color:var(--muted);">— request access as needed</span></span>
+        <span class="section-progress" id="sp-6">0/17</span>
+        <button class="reset-btn" onclick="resetSection('s6')">Reset</button>
+      </div>
+      <div class="tools-grid" id="s6">
+        <div class="item" onclick="toggle(this)"><div class="checkbox"></div><div class="item-body"><div class="item-label">Adobe</div><div class="item-note">Design, video, docs — All departments</div></div></div>
+        <div class="item" onclick="toggle(this)"><div class="checkbox"></div><div class="item-body"><div class="item-label">Canva</div><div class="item-note">Visual content — Marketing</div></div></div>
+        <div class="item" onclick="toggle(this)"><div class="checkbox"></div><div class="item-body"><div class="item-label">Chilli Piper</div><div class="item-note">Meeting scheduling/routing — Customer Success, Facilitation</div></div></div>
+        <div class="item" onclick="toggle(this)"><div class="checkbox"></div><div class="item-body"><div class="item-label">DealIQ (Auctus.IQ)</div><div class="item-note">Sales performance platform — Sales, Customer Success</div></div></div>
+        <div class="item" onclick="toggle(this)"><div class="checkbox"></div><div class="item-body"><div class="item-label">Engagli</div><div class="item-note">Virtual meeting/event platform — Facilitation, Customer Success</div></div></div>
+        <div class="item" onclick="toggle(this)"><div class="checkbox"></div><div class="item-body"><div class="item-label">Fathom</div><div class="item-note">AI meeting recorder/transcriber — All departments</div></div></div>
+        <div class="item" onclick="toggle(this)"><div class="checkbox"></div><div class="item-body"><div class="item-label">Highspot</div><div class="item-note">Sales collateral — CS Enterprise, Facilitation, Marketing, Product</div></div></div>
+        <div class="item" onclick="toggle(this)"><div class="checkbox"></div><div class="item-body"><div class="item-label">Humantic AI</div><div class="item-note">Buyer intelligence — As needed</div></div></div>
+        <div class="item" onclick="toggle(this)"><div class="checkbox"></div><div class="item-body"><div class="item-label">Monday.com</div><div class="item-note">Project management — As needed</div></div></div>
+        <div class="item" onclick="toggle(this)"><div class="checkbox"></div><div class="item-body"><div class="item-label">Net Suite</div><div class="item-note">Accounting software — Accounting only</div></div></div>
+        <div class="item" onclick="toggle(this)"><div class="checkbox"></div><div class="item-body"><div class="item-label">Qualtrics</div><div class="item-note">Experience management — Customer Success</div></div></div>
+        <div class="item" onclick="toggle(this)"><div class="checkbox"></div><div class="item-body"><div class="item-label">Synthesia</div><div class="item-note">AI video creation — Product</div></div></div>
+        <div class="item" onclick="toggle(this)"><div class="checkbox"></div><div class="item-body"><div class="item-label">Vidyard</div><div class="item-note">Video recording platform — All departments</div></div></div>
+        <div class="item" onclick="toggle(this)"><div class="checkbox"></div><div class="item-body"><div class="item-label">Vimeo</div><div class="item-note">Video hosting — As needed</div></div></div>
+        <div class="item" onclick="toggle(this)"><div class="checkbox"></div><div class="item-body"><div class="item-label">Yoodli</div><div class="item-note">AI speech coaching — As needed</div></div></div>
+        <div class="item" onclick="toggle(this)"><div class="checkbox"></div><div class="item-body"><div class="item-label">Zendesk</div><div class="item-note">Customer ticketing — Learning Technology, Marketing</div></div></div>
+        <div class="item" onclick="toggle(this)"><div class="checkbox"></div><div class="item-body"><div class="item-label">Zoom</div><div class="item-note">Video conferencing — Sales, Customer Success, Growth &amp; Development</div></div></div>
+      </div>
+    </div>
+
+    <!-- SECTION 7 -->
+    <div class="section">
+      <div class="section-header">
+        <span class="section-number">07</span>
+        <span class="section-title">Future Access</span>
+        <span class="section-progress" id="sp-7">0/1</span>
+      </div>
+      <div class="items" id="s7">
+        <div class="item" onclick="toggle(this)">
+          <div class="checkbox"></div>
+          <div class="item-body">
+            <div class="item-label">Empower Retirement (401k)</div>
+            <div class="item-note">Auto-enrollment at 90 days. Access granted 60 days after hire. You'll receive a notice 30 days before enrollment with opt-out instructions.</div>
+          </div>
+          <span class="badge badge-future">Day 60+</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="completion-banner" id="completionBanner">
+      <h2>You're all set. Welcome to Sandler. 🎉</h2>
+      <p>All items checked. Your general onboarding is complete — now the real work begins.</p>
+    </div>
+  </main>
+</div>
+
+<!-- ── Admin view ── -->
+<div id="adminView">
+  <header>
+    <div class="header-eyebrow">Sandler Training · Admin</div>
+    <div class="header-meta">
+      <div>
+        <h1>Onboarding Dashboard</h1>
+        <p>New hire progress overview</p>
+      </div>
+      <button class="signout-btn" onclick="signOut()">Sign out</button>
+    </div>
+  </header>
+  <div class="admin-main">
+    <div class="admin-toolbar">
+      <div>
+        <div class="admin-heading">All Users</div>
+        <div class="admin-sub" id="adminSubtitle">Loading…</div>
+      </div>
+      <button class="refresh-btn" onclick="loadAdminDashboard()">↻ Refresh</button>
+    </div>
+    <div id="adminTableContainer"></div>
+  </div>
+</div>
+
+<script>
+  // ─────────────────────────────────────────
+  // CONFIG
+  // ─────────────────────────────────────────
+  const SUPABASE_URL   = 'https://fuuxuyiztghdnragfuva.supabase.co';
+  const SUPABASE_KEY   = 'sb_publishable_641xviK_gXkqwoIbuA3XTw_P06rGlDT';
+  const ADMIN_NAME     = 'admin';        // type this name to trigger password prompt
+  const ADMIN_PASSWORD = 'Sandler2026!'; // change this before sharing
+
+  const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+  let currentUser = null; // { user_id, display_name }
+  let saveTimer   = null;
+  let pendingName = null;
+
+  // ── Gate step navigation ──
+  function showStep(id) {
+    document.querySelectorAll('.gate-step').forEach(s => s.classList.remove('active'));
+    document.getElementById('step' + id).classList.add('active');
+    if (id === '1') {
+      document.getElementById('nameInput').value = '';
+      document.getElementById('nameError').textContent = '';
+      document.getElementById('adminPw').value = '';
+      document.getElementById('adminError').textContent = '';
+      const btn = document.getElementById('nameBtn');
+      btn.textContent = 'Continue';
+      btn.disabled = false;
+    }
+  }
+
+  // ── Step 1: name submitted ──
+  async function handleNameSubmit() {
+    const name = document.getElementById('nameInput').value.trim();
+    if (!name) return;
+
+    const btn = document.getElementById('nameBtn');
+    btn.textContent = 'Checking…';
+    btn.disabled = true;
+    document.getElementById('nameError').textContent = '';
+
+    // Admin check (case-insensitive)
+    if (name.toLowerCase() === ADMIN_NAME.toLowerCase()) {
+      showStep('2admin');
+      setTimeout(() => document.getElementById('adminPw').focus(), 50);
+      return;
+    }
+
+    // Look up returning user by display_name
+    const { data, error } = await db
+      .from('checklist_progress')
+      .select('*')
+      .ilike('display_name', name)
+      .maybeSingle();
+
+    btn.textContent = 'Continue';
+    btn.disabled = false;
+
+    if (error) {
+      document.getElementById('nameError').textContent = 'Something went wrong. Try again.';
+      console.error(error);
+      return;
+    }
+
+    if (data) {
+      // Returning user
+      currentUser = { user_id: data.user_id, display_name: data.display_name };
+      restoreState(data.state);
+      unlockChecklist();
+    } else {
+      // New user — welcome confirmation
+      pendingName = name;
+      document.getElementById('welcomeTitle').textContent = 'Welcome, ' + name + '.';
+      showStep('2welcome');
+    }
+  }
+
+  // ── Step 2a: new user confirmed ──
+  async function confirmNewUser() {
+    const uuid = crypto.randomUUID();
+    currentUser = { user_id: uuid, display_name: pendingName };
+
+    const { error } = await db
+      .from('checklist_progress')
+      .insert({
+        user_id:      uuid,
+        display_name: pendingName,
+        state:        {},
+        updated_at:   new Date().toISOString()
+      });
+
+    if (error) {
+      console.error('Create user error:', error);
+      showStep('1');
+      document.getElementById('nameError').textContent = 'Could not create profile. Try again.';
+      return;
+    }
+
+    unlockChecklist();
+  }
+
+  // ── Step 2b: admin login ──
+  function handleAdminLogin() {
+    const pw = document.getElementById('adminPw').value;
+    document.getElementById('adminError').textContent = '';
+    if (pw !== ADMIN_PASSWORD) {
+      document.getElementById('adminError').textContent = 'Incorrect password.';
+      return;
+    }
+    document.getElementById('gate').style.display = 'none';
+    loadAdminDashboard();
+  }
+
+  // ── Unlock checklist ──
+  function unlockChecklist() {
+    document.getElementById('gate').style.display = 'none';
+    document.getElementById('checklistView').style.display = 'block';
+    document.getElementById('userGreeting').textContent =
+      'Welcome, ' + currentUser.display_name + '. Complete all items before the end of your first week.';
+    updateProgress();
+  }
+
+  // ── Admin dashboard ──
+  async function loadAdminDashboard() {
+    document.getElementById('checklistView').style.display = 'none';
+    document.getElementById('adminView').style.display = 'block';
+    document.getElementById('adminSubtitle').textContent = 'Loading…';
+    document.getElementById('adminTableContainer').innerHTML = '';
+
+    const { data, error } = await db
+      .from('checklist_progress')
+      .select('display_name, user_id, state, updated_at')
+      .order('updated_at', { ascending: false });
+
+    if (error || !data) {
+      document.getElementById('adminSubtitle').textContent = '⚠ Could not load users.';
+      return;
+    }
+
+    const count = data.length;
+    document.getElementById('adminSubtitle').textContent =
+      count + ' user' + (count !== 1 ? 's' : '') + ' registered';
+
+    if (!count) {
+      document.getElementById('adminTableContainer').innerHTML =
+        '<div class="empty-state">No users yet.</div>';
+      return;
+    }
+
+    const rows = data.map(u => {
+      const name = u.display_name || u.user_id;
+      const pct  = calcPercent(u.state);
+      return `<tr class="user-row">
+        <td><span class="user-name">${name}</span></td>
+        <td>
+          <div class="mini-bar-wrap">
+            <div class="mini-bar"><div class="mini-bar-fill" style="width:${pct}%"></div></div>
+            <span class="pct-label">${pct}%</span>
+          </div>
+        </td>
+        <td><span class="last-active">${formatDate(u.updated_at)}</span></td>
+      </tr>`;
+    }).join('');
+
+    document.getElementById('adminTableContainer').innerHTML = `
+      <table class="user-table">
+        <thead><tr><th>Name</th><th>Progress</th><th>Last Active</th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table>`;
+  }
+
+  function calcPercent(state) {
+    if (!state) return 0;
+    const vals = Object.values(state);
+    if (!vals.length) return 0;
+    return Math.round(vals.filter(Boolean).length / vals.length * 100);
+  }
+
+  function formatDate(iso) {
+    if (!iso) return '—';
+    const d = new Date(iso);
+    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) +
+      ' at ' + d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+  }
+
+  // ── Sign out ──
+  function signOut() { location.reload(); }
+
+  // ── Save status indicator ──
+  function setSaveStatus(msg, color) {
+    const el = document.getElementById('saveStatus');
+    if (!el) return;
+    el.textContent = msg;
+    el.style.color = color || 'rgba(255,255,255,0.35)';
+  }
+
+  // ── Save to Supabase (debounced) ──
+  async function saveState() {
+    if (!currentUser) return;
+    const state = {};
+    document.querySelectorAll('.item[onclick], .sub-item[onclick*="toggleSub"]')
+      .forEach((el, i) => { state['item_' + i] = el.classList.contains('checked'); });
+
+    setSaveStatus('Saving…', 'var(--gold-light)');
+
+    const { error } = await db
+      .from('checklist_progress')
+      .upsert(
+        { user_id: currentUser.user_id, display_name: currentUser.display_name,
+          state, updated_at: new Date().toISOString() },
+        { onConflict: 'user_id' }
+      );
+
+    if (error) {
+      setSaveStatus('⚠ Save failed', '#f87171');
+      console.error('Save error:', error);
+    } else {
+      setSaveStatus('Saved ✓', '#86efac');
+      setTimeout(() => setSaveStatus('Last saved just now'), 1500);
+    }
+  }
+
+  function debounceSave() {
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(saveState, 800);
+  }
+
+  // ── Restore state from DB row ──
+  function restoreState(state) {
+    if (!state) return;
+    document.querySelectorAll('.item[onclick], .sub-item[onclick*="toggleSub"]')
+      .forEach((el, i) => { if (state['item_' + i]) el.classList.add('checked'); });
+  }
+
+  // ── Checkbox interactions ──
+  function toggle(el) {
+    el.classList.toggle('checked');
+    debounceSave();
+    updateProgress();
+  }
+
+  function toggleSub(el) {
+    el.classList.toggle('checked');
+    debounceSave();
+    updateProgress();
+  }
+
+  function resetSection(sectionId) {
+    document.getElementById(sectionId)
+      .querySelectorAll('.item, .sub-item')
+      .forEach(el => el.classList.remove('checked'));
+    debounceSave();
+    updateProgress();
+  }
+
+  // ── Progress counters ──
+  function updateProgress() {
+    const sections = ['s1','s2','s3','s4','s5','s6','s7'];
+    let totalItems = 0, totalChecked = 0;
+    sections.forEach((id, idx) => {
+      const section = document.getElementById(id);
+      if (!section) return;
+      const total = section.querySelectorAll('.item[onclick]').length;
+      const done  = section.querySelectorAll('.item.checked').length;
+      totalItems   += total;
+      totalChecked += done;
+      const spEl = document.getElementById('sp-' + (idx + 1));
+      if (spEl) {
+        spEl.textContent = done + '/' + total;
+        spEl.className = 'section-progress' + (done === total && total > 0 ? ' done' : '');
+      }
+    });
+    document.getElementById('progressCount').textContent =
+      totalChecked + ' / ' + totalItems + ' complete';
+    document.getElementById('progressFill').style.width =
+      (totalItems > 0 ? totalChecked / totalItems * 100 : 0) + '%';
+    document.getElementById('completionBanner')
+      .classList.toggle('visible', totalChecked === totalItems && totalItems > 0);
+  }
+</script>
+</body>
+</html>
